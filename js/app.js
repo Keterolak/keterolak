@@ -1,38 +1,88 @@
 /* ============================================
    KETEROLAK - app.js
    Lógica general del sitio.
-   Incluye la base para "Continuar leyendo":
-   guarda en localStorage el último capítulo
-   (y el scroll) que el usuario estaba leyendo.
+
+   Sistema de "Continuar leyendo":
+   guarda en localStorage el progreso de lectura
+   (capítulo, ruta y posición de scroll) de forma
+   INDEPENDIENTE por cada historia/temporada, para
+   que el usuario pueda tener distintos progresos en
+   paralelo (Temporada 1, Orígenes, Especiales, etc).
+
+   El progreso se guarda en un único objeto con esta
+   forma:
+   {
+     "t1":        { chapter, path, scroll, timestamp },
+     "origenes":  { chapter, path, scroll, timestamp },
+     ...
+   }
+
+   La clave de cada historia es el valor de
+   data-story del <article class="capitulo"> del
+   capítulo (ej: "t1", "t2", "origenes", "especiales").
    ============================================ */
 
 (function () {
   "use strict";
 
-  var STORAGE_KEY = "keterolak_progreso";
+  var STORAGE_KEY = "keterolak_progreso_historias";
+  var STORAGE_KEY_LEGACY = "keterolak_progreso";
 
-  function guardarProgreso(articulo) {
-    var data = {
-      story: articulo.dataset.story,
-      chapter: articulo.dataset.chapter,
-      path: window.location.pathname,
-      scroll: window.scrollY,
-      timestamp: Date.now()
-    };
+  function obtenerMapaProgreso() {
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      var raw = localStorage.getItem(STORAGE_KEY);
+      return raw ? JSON.parse(raw) : {};
+    } catch (e) {
+      return {};
+    }
+  }
+
+  function guardarMapaProgreso(mapa) {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(mapa));
     } catch (e) {
       /* localStorage no disponible: se ignora silenciosamente */
     }
   }
 
-  function leerProgreso() {
+  // Migra un progreso guardado con el sistema anterior
+  // (una sola historia, sin distinguir por temporada)
+  // para que no se pierda al actualizar el sitio.
+  function migrarProgresoAnterior() {
+    var mapa = obtenerMapaProgreso();
     try {
-      var raw = localStorage.getItem(STORAGE_KEY);
-      return raw ? JSON.parse(raw) : null;
+      var raw = localStorage.getItem(STORAGE_KEY_LEGACY);
+      if (!raw) return mapa;
+
+      var anterior = JSON.parse(raw);
+      if (anterior && anterior.story && !mapa[anterior.story]) {
+        mapa[anterior.story] = {
+          chapter: anterior.chapter,
+          path: anterior.path,
+          scroll: anterior.scroll,
+          timestamp: anterior.timestamp || Date.now()
+        };
+        guardarMapaProgreso(mapa);
+      }
+      localStorage.removeItem(STORAGE_KEY_LEGACY);
     } catch (e) {
-      return null;
+      /* Si algo falla en la migración, seguimos sin romper nada */
     }
+    return mapa;
+  }
+
+  function guardarProgreso(articulo) {
+    var story = articulo.dataset.story;
+    if (!story) return;
+
+    var mapa = obtenerMapaProgreso();
+    mapa[story] = {
+      chapter: articulo.dataset.chapter,
+      path: window.location.pathname,
+      scroll: window.scrollY,
+      timestamp: Date.now()
+    };
+    guardarMapaProgreso(mapa);
   }
 
   function inicializarCapitulo() {
@@ -58,17 +108,54 @@
     });
   }
 
-  function inicializarIndex() {
-    var boton = document.querySelector(".boton-continuar-leyendo");
-    var progreso = leerProgreso();
-    if (!boton || !progreso) return;
+  // De todas las historias con progreso guardado,
+  // devuelve la más reciente (para el botón "global"
+  // de la portada, que no pertenece a ninguna historia
+  // en particular).
+  function entradaMasReciente(mapa) {
+    var claves = Object.keys(mapa);
+    if (!claves.length) return null;
 
-    boton.style.display = "inline-block";
-    boton.setAttribute("href", progreso.path);
+    var masReciente = null;
+    claves.forEach(function (clave) {
+      var entrada = mapa[clave];
+      if (!masReciente || (entrada.timestamp || 0) > (masReciente.timestamp || 0)) {
+        masReciente = entrada;
+      }
+    });
+    return masReciente;
+  }
+
+  // Activa cada botón ".boton-continuar-leyendo" que haya
+  // en la página. Si el botón tiene data-continuar-scope
+  // con el id de una historia (ej: "t1"), solo se activa
+  // si esa historia puntual tiene progreso guardado. Si el
+  // scope es "global" (o no tiene), se activa con el
+  // progreso más reciente entre todas las historias.
+  function inicializarBotonesContinuar(mapa) {
+    var botones = document.querySelectorAll(".boton-continuar-leyendo");
+    if (!botones.length) return;
+
+    botones.forEach(function (boton) {
+      var alcance = boton.getAttribute("data-continuar-scope");
+      var entrada;
+
+      if (alcance && alcance !== "global") {
+        entrada = mapa[alcance];
+      } else {
+        entrada = entradaMasReciente(mapa);
+      }
+
+      if (!entrada || !entrada.path) return;
+
+      boton.style.display = "inline-block";
+      boton.setAttribute("href", entrada.path);
+    });
   }
 
   document.addEventListener("DOMContentLoaded", function () {
     inicializarCapitulo();
-    inicializarIndex();
+    var mapa = migrarProgresoAnterior();
+    inicializarBotonesContinuar(mapa);
   });
 })();

@@ -133,6 +133,127 @@ main {
   background-color: var(--color-acento);
 }
 
+/* ---------- Selector de historias (portada) ---------- */
+
+.selector-historias {
+  padding: 3rem 0 1rem;
+}
+
+.selector-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.selector-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding: 1.9rem 1.6rem;
+  border: 1px solid var(--color-borde);
+  border-radius: 6px;
+  background-color: var(--color-superficie);
+  text-decoration: none;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.selector-card:hover {
+  border-color: var(--color-acento);
+  transform: translateY(-2px);
+}
+
+.selector-card-eyebrow {
+  font-family: var(--fuente-ui);
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-size: 0.72rem;
+  color: var(--color-acento-claro);
+}
+
+.selector-card-titulo {
+  font-family: var(--fuente-titulo);
+  font-size: 1.15rem;
+  letter-spacing: 0.02em;
+  color: var(--color-texto);
+}
+
+.selector-card--proximamente {
+  background-color: var(--color-fondo);
+}
+
+.selector-card--proximamente .selector-card-eyebrow {
+  color: var(--color-texto-secundario);
+}
+
+.selector-card--proximamente .selector-card-titulo {
+  color: var(--color-texto-tenue);
+  font-style: italic;
+}
+
+@media (max-width: 560px) {
+  .selector-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------- Encabezado de listado de una historia ---------- */
+
+.historia-header {
+  text-align: center;
+  padding: 3.5rem 0 2rem;
+}
+
+.historia-marca {
+  font-family: var(--fuente-ui);
+  font-weight: 500;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  color: var(--color-texto-tenue);
+  margin: 0 0 1.2rem;
+}
+
+.historia-eyebrow {
+  font-family: var(--fuente-ui);
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  color: var(--color-texto-secundario);
+  margin: 0;
+}
+
+.historia-titulo {
+  font-family: var(--fuente-display);
+  font-size: clamp(2rem, 8vw, 2.8rem);
+  margin: 0.4rem 0 0;
+}
+
+.historia-volver {
+  display: inline-block;
+  margin-top: 1.5rem;
+  font-family: var(--fuente-ui);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-texto-tenue);
+  text-decoration: none;
+}
+
+.historia-volver:hover {
+  color: var(--color-acento-claro);
+}
+
+.historia-vacio {
+  text-align: center;
+  font-family: var(--fuente-texto);
+  font-style: italic;
+  color: var(--color-texto-secundario);
+  padding: 1rem 0 3rem;
+  font-size: 1rem;
+}
+
 /* ---------- Temporada / lista de capítulos ---------- */
 
 .temporada {
