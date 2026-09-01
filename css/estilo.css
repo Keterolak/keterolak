@@ -1,0 +1,425 @@
+/* ============================================
+   KETEROLAK — Hoja de estilos
+   Estética: oscura, cinematográfica, barrial.
+   Prioridad número uno: la lectura.
+   ============================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@400;500;600&family=Lora:ital,wght@0,400;0,500;1,400&family=Inter:wght@400;500;600&display=swap');
+
+:root {
+  /* Paleta base */
+  --color-fondo: #0d0d0d;
+  --color-superficie: #161615;
+  --color-superficie-alta: #1c1c1b;
+  --color-borde: #2a2a28;
+
+  /* Texto */
+  --color-texto: #ededea;
+  --color-texto-secundario: #8c8c88;
+  --color-texto-tenue: #5c5c58;
+
+  /* Acentos */
+  --color-acento: #7a2b26;
+  --color-acento-claro: #9c3b34;
+  --color-keterolak: #4a5c4f;
+  --color-keterolak-tenue: #33403680;
+
+  /* Tipografía */
+  --fuente-display: 'Bebas Neue', 'Oswald', Impact, sans-serif;
+  --fuente-titulo: 'Oswald', Impact, sans-serif;
+  --fuente-texto: 'Lora', Georgia, 'Times New Roman', serif;
+  --fuente-ui: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  --ancho-lectura: 740px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--color-fondo);
+  color: var(--color-texto);
+  font-family: var(--fuente-texto);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: inherit;
+}
+
+main {
+  max-width: var(--ancho-lectura);
+  margin: 0 auto;
+  padding: 0 1.5rem 5rem;
+}
+
+.divisor {
+  border: none;
+  border-top: 1px solid var(--color-borde);
+  margin: 2.5rem 0;
+  width: 60px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ============================================
+   PORTADA
+   ============================================ */
+
+.portada-hero {
+  min-height: 78vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 4rem 1.5rem 3rem;
+  position: relative;
+  background:
+    radial-gradient(ellipse 60% 50% at 50% 20%, rgba(74, 92, 79, 0.08), transparent 70%),
+    var(--color-fondo);
+  border-bottom: 1px solid var(--color-borde);
+}
+
+.portada-marca {
+  font-family: var(--fuente-display);
+  font-size: clamp(3.2rem, 14vw, 6rem);
+  letter-spacing: 0.06em;
+  line-height: 1;
+  margin: 0;
+  color: var(--color-texto);
+}
+
+.portada-marca span {
+  color: var(--color-keterolak);
+}
+
+.portada-subtitulo {
+  font-family: var(--fuente-ui);
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  color: var(--color-texto-secundario);
+  margin: 0.9rem 0 2.5rem;
+}
+
+.boton-continuar-leyendo {
+  display: none;
+  font-family: var(--fuente-ui);
+  font-weight: 500;
+  font-size: 0.85rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--color-texto);
+  background-color: transparent;
+  border: 1px solid var(--color-acento);
+  padding: 0.85rem 2rem;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.boton-continuar-leyendo:hover {
+  background-color: var(--color-acento);
+}
+
+/* ---------- Temporada / lista de capítulos ---------- */
+
+.temporada {
+  padding: 3rem 0 1rem;
+}
+
+.temporada-encabezado {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.temporada-titulo {
+  font-family: var(--fuente-titulo);
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-size: 0.95rem;
+  color: var(--color-texto-secundario);
+  margin: 0;
+}
+
+.lista-capitulos {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border-top: 1px solid var(--color-borde);
+}
+
+.capitulo-item {
+  border-bottom: 1px solid var(--color-borde);
+}
+
+.capitulo-link,
+.capitulo-link-inactivo {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  padding: 1.05rem 0.25rem;
+  text-decoration: none;
+}
+
+.capitulo-link {
+  color: var(--color-texto);
+  transition: padding-left 0.2s ease, color 0.2s ease;
+}
+
+.capitulo-link:hover {
+  padding-left: 0.5rem;
+  color: var(--color-acento-claro);
+}
+
+.capitulo-link-inactivo {
+  color: var(--color-texto-tenue);
+  cursor: default;
+}
+
+.capitulo-link-numero {
+  font-family: var(--fuente-titulo);
+  font-size: 1rem;
+  letter-spacing: 0.08em;
+  min-width: 2.2rem;
+  flex-shrink: 0;
+}
+
+.capitulo-link-titulo {
+  font-family: var(--fuente-ui);
+  font-size: 1rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.pie {
+  text-align: center;
+  font-family: var(--fuente-ui);
+  color: var(--color-texto-tenue);
+  font-size: 0.8rem;
+  padding: 2.5rem 0 1.5rem;
+}
+
+/* ============================================
+   CAPÍTULO
+   ============================================ */
+
+.capitulo-header {
+  text-align: center;
+  padding: 4rem 0 2.5rem;
+}
+
+.capitulo-marca {
+  font-family: var(--fuente-ui);
+  font-weight: 500;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  color: var(--color-texto-tenue);
+  margin: 0 0 1.5rem;
+}
+
+.capitulo-temporada {
+  font-family: var(--fuente-ui);
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  color: var(--color-texto-secundario);
+  margin: 0;
+}
+
+.capitulo-numero {
+  font-family: var(--fuente-display);
+  letter-spacing: 0.08em;
+  color: var(--color-acento-claro);
+  font-size: 1.4rem;
+  margin: 0.6rem 0 0;
+}
+
+.capitulo-titulo {
+  font-family: var(--fuente-display);
+  letter-spacing: 0.03em;
+  font-size: clamp(2.2rem, 9vw, 3.2rem);
+  line-height: 1.05;
+  margin: 0.4rem 0 0;
+}
+
+.capitulo-contenido {
+  font-size: 1.13rem;
+}
+
+.capitulo-contenido p {
+  margin: 0 0 1.35rem;
+  text-align: left;
+}
+
+.capitulo-nota {
+  font-family: var(--fuente-titulo);
+  text-align: center !important;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.95rem;
+  color: var(--color-texto-secundario);
+  margin: 2rem 0 0.5rem !important;
+}
+
+.capitulo-nota + .capitulo-nota {
+  margin-top: 0.3rem !important;
+  font-family: var(--fuente-ui);
+  text-transform: none;
+  letter-spacing: 0.04em;
+  font-size: 0.85rem;
+  color: var(--color-texto-tenue);
+}
+
+.capitulo-contenido > p:first-of-type::first-letter {
+  font-family: var(--fuente-display);
+  font-size: 3.6rem;
+  float: left;
+  line-height: 0.8;
+  padding: 0.1rem 0.5rem 0 0;
+  color: var(--color-acento-claro);
+}
+
+/* ---------- Menciones sutiles del fenómeno ---------- */
+
+.mencion-keterolak {
+  color: var(--color-keterolak);
+}
+
+/* ---------- Mensajes de WhatsApp dentro del capítulo ---------- */
+
+.chat-whatsapp {
+  background-color: var(--color-superficie);
+  border: 1px solid var(--color-borde);
+  border-radius: 14px;
+  padding: 1.1rem 0.9rem;
+  margin: 0 0 1.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.02);
+}
+
+.chat-fila {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  max-width: 82%;
+}
+
+.chat-fila--propio {
+  align-items: flex-end;
+  align-self: flex-end;
+}
+
+.chat-remitente {
+  font-family: var(--fuente-ui);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--color-acento-claro);
+  margin: 0 0.6rem 0.2rem;
+}
+
+.chat-fila--propio .chat-remitente {
+  display: none;
+}
+
+.chat-burbuja {
+  font-family: var(--fuente-ui);
+  font-size: 0.92rem;
+  line-height: 1.45;
+  color: var(--color-texto);
+  background-color: var(--color-superficie-alta);
+  border: 1px solid var(--color-borde);
+  border-radius: 16px 16px 16px 4px;
+  padding: 0.55rem 0.85rem;
+  margin: 0;
+  word-break: break-word;
+}
+
+.chat-fila--propio .chat-burbuja {
+  background-color: #241715;
+  border-color: #3a201d;
+  border-radius: 16px 16px 4px 16px;
+  color: var(--color-texto);
+}
+
+/* ============================================
+   NAVEGACIÓN ENTRE CAPÍTULOS
+   ============================================ */
+
+.capitulo-navegacion {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 3.5rem;
+  padding-top: 1.8rem;
+  border-top: 1px solid var(--color-borde);
+  font-family: var(--fuente-ui);
+}
+
+.capitulo-navegacion a,
+.capitulo-navegacion span {
+  text-decoration: none;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-texto-secundario);
+  transition: color 0.2s ease;
+}
+
+.capitulo-navegacion a:hover {
+  color: var(--color-acento-claro);
+}
+
+.nav-deshabilitado {
+  color: var(--color-texto-tenue);
+  cursor: default;
+}
+
+.nav-volver {
+  color: var(--color-texto-tenue);
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+@media (max-width: 480px) {
+  main {
+    padding: 0 1.15rem 4rem;
+  }
+
+  .capitulo-header {
+    padding: 3rem 0 2rem;
+  }
+
+  .capitulo-contenido {
+    font-size: 1.05rem;
+  }
+
+  .capitulo-navegacion {
+    font-size: 0.7rem;
+  }
+
+  .chat-fila {
+    max-width: 90%;
+  }
+}
